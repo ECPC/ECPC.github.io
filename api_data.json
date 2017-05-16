@@ -28,6 +28,129 @@
     "name": ""
   },
   {
+    "type": "get",
+    "url": "/api/cart/addToCart",
+    "title": "Agregar producto al carrito",
+    "description": "<p>Agrega un producto en cierta cantidad al carrito</p>",
+    "name": "AddToCart",
+    "group": "Carrito",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "productID",
+            "description": "<p>El ID del producto a agregar</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "txtCantidad",
+            "description": "<p>La cantidad de producto a agregar</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "redirect",
+            "description": "<p>/sub/carrito.html</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./example.js",
+    "groupTitle": "Carrito"
+  },
+  {
+    "type": "get",
+    "url": "/api/cart",
+    "title": "Carrito de compras",
+    "description": "<p>Obtiene los productos agregados al carrito de compras</p>",
+    "name": "Cart",
+    "group": "Carrito",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "---",
+            "description": "<p>Arreglo de los productos agregados al carrito</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Ejemplo de respuesta:",
+          "content": "[\n\t{\n\t\t\"id\":1,\n\t\t\"name\":\"Gigabyte Tarjeta De Video Nvidia Geforce Gt710 2gb Ddr3 Hdmi\",\n\t\t\"price\":849,\n\t\t\"image_path_min\":\"\\/img\\/productos\\/producto1min.png\",\n\t\t\"quantity\":1\n\t},\n\t{\n\t\t\"id\":4,\n\t\t\"name\":\"Tarjeta Madre Gigabyte Ga-z170x Gaming 3 Socket 1151 Intel\",\n\t\t\"price\":3049,\n\t\t\"image_path_min\":\"\\/img\\/productos\\/producto4min.png\",\n\t\t\"quantity\":1\n\t}\n]",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "./example.js",
+    "groupTitle": "Carrito"
+  },
+  {
+    "type": "get",
+    "url": "/api/cart/{productID}/removeProduct",
+    "title": "Remover producto del carrito",
+    "description": "<p>Remueve un producto del carrito</p>",
+    "name": "RemoveProduct",
+    "group": "Carrito",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "redirect",
+            "description": "<p>/sub/carrito.html</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./example.js",
+    "groupTitle": "Carrito"
+  },
+  {
+    "type": "get",
+    "url": "/api/isLogged",
+    "title": "Check session",
+    "description": "<p>Regresa si el usuario ha iniciado sesión en el servidor</p>",
+    "name": "IsLogged",
+    "group": "General",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Boolean",
+            "optional": false,
+            "field": "---",
+            "description": "<p>Estado de sesión del usuario</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./example.js",
+    "groupTitle": "General"
+  },
+  {
     "type": "post",
     "url": "/api/login",
     "title": "Login",
@@ -135,7 +258,7 @@
   },
   {
     "type": "post",
-    "url": "api/order/create",
+    "url": "/api/order/create",
     "title": "Hacer pedido",
     "description": "<p>Efectúa un pedido y aplica ganancias al usuario y sus padres</p>",
     "name": "CreateOrder",
@@ -179,7 +302,7 @@
   },
   {
     "type": "get",
-    "url": "api/order/history",
+    "url": "/api/order/history",
     "title": "Historial de pedidos",
     "description": "<p>Regresa el historial de pedidos efectuados por el usuario</p>",
     "name": "OrderHistory",
@@ -193,6 +316,37 @@
             "optional": false,
             "field": "---",
             "description": "<p>Arreglo del historial de todos los pedidos</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Ejemplo de respuesta:",
+          "content": "[\n\t{\n\t\t\"id\":3,\n\t\t\"user_id\":1,\n\t\t\"total_price\":600,\n\t\t\"total_points\":12,\n\t\t\"address\":\"Calle bonita\",\n\t\t\"created_at\":\"2017-05-05 00:07:53\"\n\t},\n\t{\n\t\t\"id\":4,\n\t\t\"user_id\":1,\n\t\t\"total_price\":800,\n\t\t\"total_points\":16,\n\t\t\"address\":\"Calle bonita\",\n\t\t\"created_at\":\"2017-05-05 00:07:53\"\n\t},etc...\n]",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "./example.js",
+    "groupTitle": "Pedido"
+  },
+  {
+    "type": "get",
+    "url": "/api/order/historyOffset/{offset}/count/{count}",
+    "title": "Historial de pedidos paginado",
+    "description": "<p>Regresa el historial de pedidos efectuados por el usuario de forma paginada, el primer parametro de la URL define a partir de que posición tomar la información, el segundo es para saber cuantos registros tomar</p>",
+    "name": "OrderHistoryOffset",
+    "group": "Pedido",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "---",
+            "description": "<p>Arreglo del historial de todos los pedidos paginado</p>"
           }
         ]
       },
@@ -230,7 +384,80 @@
       "examples": [
         {
           "title": "Ejemplo de respuesta:",
-          "content": "[\n\t{\n\t\t\"id\":1,\n\t\t\"name\":\"producto1\",\n\t\t\"description\":\"descripci\\u00f3n de producto1\",\n\t\t\"image_path\":\"\\/img\\/productos\\/producto1.png\",\n\t\t\"price\":200,\n\t\t\"points\":4\n\t},\n\t{\n\t\t\"id\":2,\n\t\t\"name\":\"producto2\",\n\t\t\"description\":\"descripci\\u00f3n de producto2\",\n\t\t\"image_path\":\"\\/img\\/productos\\/producto2.png\",\n\t\t\"price\":400,\n\t\t\"points\":8\n\t},etc...\n]",
+          "content": "[\n\t{\n\t\t\"id\":1,\n\t\t\"name\":\"producto1\",\n\t\t\"description\":\"descripci\\u00f3n de producto1\",\n\t\t\"image_path\":\"\\/img\\/productos\\/producto1.png\",\n\t\t\"image_path_min\":\"\\/img\\/productos\\/producto1min.png\",\n\t\t\"price\":200,\n\t\t\"points\":4\n\t},\n\t{\n\t\t\"id\":2,\n\t\t\"name\":\"producto2\",\n\t\t\"description\":\"descripci\\u00f3n de producto2\",\n\t\t\"image_path\":\"\\/img\\/productos\\/producto2.png\",\n\t\t\"image_path_min\":\"\\/img\\/productos\\/producto2min.png\",\n\t\t\"price\":400,\n\t\t\"points\":8\n\t},etc...\n]",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "./example.js",
+    "groupTitle": "Productos"
+  },
+  {
+    "type": "get",
+    "url": "/api/product/{id}",
+    "title": "Obtener producto",
+    "description": "<p>Obtiene la información de un producto especifico</p>",
+    "name": "Product",
+    "group": "Productos",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "description",
+            "description": "<p>Descripción del producto</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Integer",
+            "optional": false,
+            "field": "id",
+            "description": "<p>ID del producto</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "image_path",
+            "description": "<p>La ruta absoluta a la imagen del producto</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "image_path_min",
+            "description": "<p>La ruta absoluta a la imagen del producto minimizada</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>El nombre del producto</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Integer",
+            "optional": false,
+            "field": "points",
+            "description": "<p>Los puntos que ofrece la compra del producto</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "price",
+            "description": "<p>El precio unitario del producto</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Ejemplo de respuesta:",
+          "content": "{\n\t\"id\":1,\n\t\"name\":\"producto1\",\n\t\"description\":\"descripci\\u00f3n de producto1\",\n\t\"image_path\":\"\\/img\\/productos\\/producto1.png\",\n\t\"image_path_min\":\"\\/img\\/productos\\/producto1min.png\",\n\t\"price\":200,\n\t\"points\":4\n}",
           "type": "json"
         }
       ]
@@ -337,6 +564,113 @@
             "optional": false,
             "field": "redirect",
             "description": "<p>emailCheck.html</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./example.js",
+    "groupTitle": "Usuario"
+  },
+  {
+    "type": "post",
+    "url": "/api/user/editInfo",
+    "title": "Editar",
+    "description": "<p>Edita la información básica del usuario</p>",
+    "name": "EditUserInfo",
+    "group": "Usuario",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "StringNullable",
+            "optional": false,
+            "field": "name",
+            "description": "<p>Nombre(s) del usuario</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "StringNullable",
+            "optional": false,
+            "field": "apellido_paterno",
+            "description": "<p>Apellido paterno del usuario</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "StringNullable",
+            "optional": false,
+            "field": "apellido_materno",
+            "description": "<p>Apellido materno del usuario</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "StringNullable",
+            "optional": false,
+            "field": "birthdate",
+            "description": "<p>Fecha de nacimiento del usuario</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "StringNullable",
+            "optional": false,
+            "field": "calle_numero",
+            "description": "<p>Calle y número de domicilio de usuario</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "StringNullable",
+            "optional": false,
+            "field": "colonia",
+            "description": "<p>Colonia de domicilio de usuario</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "StringNullable",
+            "optional": false,
+            "field": "municipio",
+            "description": "<p>Municipio de domicilio</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "StringNullable",
+            "optional": false,
+            "field": "estado",
+            "description": "<p>Estado de domicilio</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "StringNullable",
+            "optional": false,
+            "field": "codigo_postal",
+            "description": "<p>Código postal de domicilio</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "StringNullable",
+            "optional": false,
+            "field": "radiosGenero",
+            "description": "<p>Genero del usuario [Hombre, Mujer]</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "StringNullable",
+            "optional": false,
+            "field": "contrasenia",
+            "description": "<p>Contraseña de usuario, nulo para no realizar cambios</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "redirect",
+            "description": "<p>/sub/configuracionPersonal.html</p>"
           }
         ]
       }
